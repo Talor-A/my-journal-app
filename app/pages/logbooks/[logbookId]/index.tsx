@@ -7,7 +7,7 @@ import {
   BlitzPage,
   useMutation,
   Image,
-  usePaginatedQuery,
+  useInfiniteQuery,
   invalidateQuery,
 } from "blitz"
 import Layout from "app/core/layouts/Layout"
@@ -30,7 +30,7 @@ export const Header = () => (
 )
 
 import React from "react"
-import getEntriesForBook from "app/entries/queries/getEntriesForBook"
+import getEntriesForBook, { GetEntriesInput } from "app/entries/queries/getEntriesForBook"
 import createTextEntry from "app/entries/mutations/createTextEntry"
 
 interface MessageProps {
@@ -48,8 +48,8 @@ const Message = ({ children, left = false }: MessageProps) => {
   )
 }
 const MessageList = ({ children }: { children: ReactNode }) => (
-  <div className="flex w-full h-full p-6 overflow-y-auto">
-    <ul className="w-full">{children}</ul>
+  <div className="w-full h-full p-6 overflow-y-auto">
+    <ul className="w-full flex flex-col-reverse">{children}</ul>
   </div>
 )
 
@@ -148,9 +148,17 @@ export const Logbook = () => {
   const router = useRouter()
   const logbookId = useParam("logbookId", "number")
   const [logbook] = useQuery(getLogbook, { id: logbookId })
-  const [{ entries }] = usePaginatedQuery(getEntriesForBook, {
-    id: logbookId,
-  })
+  const [entryPages, { hasNextPage, fetchNextPage }] = useInfiniteQuery(
+    getEntriesForBook,
+    (page = { take: 3, skip: 0 }): GetEntriesInput => ({
+      ...page,
+      id: logbookId,
+      orderBy: { updatedAt: "desc" },
+    }),
+    {
+      getNextPageParam: (lastPage) => lastPage.nextPage,
+    }
+  )
 
   return (
     <>
@@ -160,9 +168,15 @@ export const Logbook = () => {
       <MessageView>
         {/* <Header /> */}
         <MessageList>
-          {entries.map((entry) => (
-            <Message key={entry.id}>{entry.content}</Message>
+          {entryPages.map((page, i) => (
+            <React.Fragment key={i}>
+              {/* <div>page {i}</div> */}
+              {page.entries.map((entry) => (
+                <Message key={entry.id}>{entry.content}</Message>
+              ))}
+            </React.Fragment>
           ))}
+          {hasNextPage && <button onClick={() => fetchNextPage()}>Load more</button>}
         </MessageList>
 
         <BottomBar logbookId={logbookId} />

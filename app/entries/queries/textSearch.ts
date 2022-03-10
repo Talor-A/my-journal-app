@@ -1,22 +1,22 @@
 import { paginate, resolver } from "blitz"
 import db, { Prisma } from "db"
 
-export interface GetEntriesInput
-  extends Pick<Prisma.EntryFindManyArgs, "orderBy" | "skip" | "take"> {
-  id: number
+interface GetEntriesInput extends Pick<Prisma.EntryFindManyArgs, "orderBy" | "skip" | "take"> {
+  text: string
 }
 
 export default resolver.pipe(
   resolver.authorize(),
-  async ({ orderBy, skip = 0, take = 100, id }: GetEntriesInput, ctx) => {
+  async ({ text, orderBy, skip = 0, take = 100 }: GetEntriesInput, ctx) => {
     const where: Prisma.EntryWhereInput = {
+      type: "TEXT",
+      content: {
+        contains: text,
+      },
       logbook: {
         userId: ctx.session.userId,
-        id,
       },
-      deletedAt: null,
     }
-
     const {
       items: entries,
       hasMore,
