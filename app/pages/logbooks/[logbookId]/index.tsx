@@ -64,7 +64,7 @@ const BottomBar = ({ logbookId }: { logbookId?: number }) => {
         setText("")
         await createEntry({
           content: content.trim(),
-          logbookId,
+          logbookId: logbookId!,
         })
         invalidateQuery(getEntriesForBook)
       }
