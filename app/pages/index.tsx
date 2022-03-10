@@ -67,5 +67,5 @@ const Home: BlitzPage = () => {
 
 Home.suppressFirstRenderFlicker = true
 Home.getLayout = (page) => <CenteredLayout title="Home">{page}</CenteredLayout>
-
+Home.redirectAuthenticatedTo = "/logbooks/1"
 export default Home
