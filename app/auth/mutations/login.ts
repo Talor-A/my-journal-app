@@ -2,6 +2,8 @@ import { resolver, SecurePassword, AuthenticationError } from "blitz"
 import db from "db"
 import { Login } from "../validations"
 import { Role } from "types"
+import getLogbooks from "app/logbooks/queries/getLogbooks"
+import createLogbook from "app/logbooks/mutations/createLogbook"
 
 export const authenticateUser = async (rawEmail: string, rawPassword: string) => {
   const email = rawEmail.toLowerCase().trim()
@@ -26,6 +28,17 @@ export default resolver.pipe(resolver.zod(Login), async ({ email, password }, ct
   const user = await authenticateUser(email, password)
 
   await ctx.session.$create({ userId: user.id, role: user.role as Role })
+
+  const { count } = await getLogbooks(null, ctx)
+
+  if (count === 0) {
+    await createLogbook(
+      {
+        name: "My Journal",
+      },
+      ctx
+    )
+  }
 
   return user
 })
