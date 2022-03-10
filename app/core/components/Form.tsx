@@ -29,7 +29,11 @@ export function Form<S extends z.ZodType<any, any>>({
       validate={validateZodSchema(schema)}
       onSubmit={onSubmit}
       render={({ handleSubmit, submitting, submitError }) => (
-        <form onSubmit={handleSubmit} className="form" {...props}>
+        <form
+          onSubmit={handleSubmit}
+          className="p-4 rounded-sm border-2 border-gray-300"
+          {...props}
+        >
           {/* Form fields supplied as children are rendered here */}
           {children}
 
@@ -40,16 +44,14 @@ export function Form<S extends z.ZodType<any, any>>({
           )}
 
           {submitText && (
-            <button type="submit" disabled={submitting}>
+            <button
+              className="mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded-sm"
+              type="submit"
+              disabled={submitting}
+            >
               {submitText}
             </button>
           )}
-
-          <style global jsx>{`
-            .form > * + * {
-              margin-top: 1rem;
-            }
-          `}</style>
         </form>
       )}
     />

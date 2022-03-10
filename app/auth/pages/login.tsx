@@ -1,5 +1,5 @@
 import { useRouter, BlitzPage } from "blitz"
-import Layout from "app/core/layouts/Layout"
+import CenteredLayout from "app/core/layouts/Centered"
 import { LoginForm } from "app/auth/components/LoginForm"
 
 const LoginPage: BlitzPage = () => {
@@ -18,6 +18,6 @@ const LoginPage: BlitzPage = () => {
 }
 
 LoginPage.redirectAuthenticatedTo = "/"
-LoginPage.getLayout = (page) => <Layout title="Log In">{page}</Layout>
+LoginPage.getLayout = (page) => <CenteredLayout title="Log In">{page}</CenteredLayout>
 
 export default LoginPage
