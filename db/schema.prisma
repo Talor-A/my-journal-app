@@ -67,4 +67,23 @@ model Logbook {
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
   name      String
+  entries   Entry[]
+}
+
+enum EntryType {
+  TEXT
+  IMAGE
+}
+
+model Entry {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  type    EntryType @default(TEXT)
+  content String
+
+  logbook   Logbook @relation(fields: [logbookId], references: [id])
+  logbookId Int
 }
