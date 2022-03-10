@@ -48,7 +48,7 @@ const Message = ({ children, left = false }: MessageProps) => {
   )
 }
 const MessageList = ({ children }: { children: ReactNode }) => (
-  <div className="flex w-full p-6 overflow-y-auto h-[40rem]">
+  <div className="flex w-full h-full p-6 overflow-y-auto">
     <ul className="w-full">{children}</ul>
   </div>
 )
@@ -139,12 +139,8 @@ const BottomBar = ({ logbookId }: { logbookId?: number }) => {
 }
 
 export const MessageView = ({ children }: { children: ReactNode }) => (
-  <div className="container mx-auto">
-    <div className="max-w-2xl border">
-      <div>
-        <div className="w-full flex flex-col items-stretch justify-between">{children}</div>
-      </div>
-    </div>
+  <div className="container mx-auto h-screen border">
+    <div className="w-full h-full flex flex-col items-stretch justify-between">{children}</div>
   </div>
 )
 
@@ -162,7 +158,7 @@ export const Logbook = () => {
         <title>{logbook.name}</title>
       </Head>
       <MessageView>
-        <Header />
+        {/* <Header /> */}
         <MessageList>
           {entries.map((entry) => (
             <Message key={entry.id}>{entry.content}</Message>
