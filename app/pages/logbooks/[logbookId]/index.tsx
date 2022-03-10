@@ -7,31 +7,16 @@ import deleteLogbook from "app/logbooks/mutations/deleteLogbook"
 export const Logbook = () => {
   const router = useRouter()
   const logbookId = useParam("logbookId", "number")
-  const [deleteLogbookMutation] = useMutation(deleteLogbook)
   const [logbook] = useQuery(getLogbook, { id: logbookId })
 
   return (
     <>
       <Head>
-        <title>Logbook {logbook.id}</title>
+        <title>{logbook.name}</title>
       </Head>
 
       <div>
-        <h1>Logbook {logbook.id}</h1>
-        <pre>{JSON.stringify(logbook, null, 2)}</pre>
-
-        <button
-          type="button"
-          onClick={async () => {
-            if (window.confirm("This will be deleted")) {
-              await deleteLogbookMutation({ id: logbook.id })
-              router.push(Routes.LogbooksPage())
-            }
-          }}
-          style={{ marginLeft: "0.5rem" }}
-        >
-          Delete
-        </button>
+        <h1>{logbook.name}</h1>
       </div>
     </>
   )
@@ -39,17 +24,11 @@ export const Logbook = () => {
 
 const ShowLogbookPage: BlitzPage = () => {
   return (
-    <div>
-      <p>
-        <Link href={Routes.LogbooksPage()}>
-          <a>Logbooks</a>
-        </Link>
-      </p>
-
+    <main>
       <Suspense fallback={<div>Loading...</div>}>
         <Logbook />
       </Suspense>
-    </div>
+    </main>
   )
 }
 
