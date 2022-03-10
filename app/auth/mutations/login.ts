@@ -29,7 +29,7 @@ export default resolver.pipe(resolver.zod(Login), async ({ email, password }, ct
 
   await ctx.session.$create({ userId: user.id, role: user.role as Role })
 
-  const { count } = await getLogbooks(null, ctx)
+  const { count } = await getLogbooks({}, ctx)
 
   if (count === 0) {
     await createLogbook(
