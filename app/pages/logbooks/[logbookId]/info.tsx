@@ -37,7 +37,7 @@ export const Logbook = () => {
   )
 }
 
-const ShowLogbookPage: BlitzPage = () => {
+const LogbookInfoPage: BlitzPage = () => {
   return (
     <div>
       <p>
@@ -53,7 +53,7 @@ const ShowLogbookPage: BlitzPage = () => {
   )
 }
 
-ShowLogbookPage.authenticate = true
-ShowLogbookPage.getLayout = (page) => <Layout>{page}</Layout>
+LogbookInfoPage.authenticate = true
+LogbookInfoPage.getLayout = (page) => <Layout>{page}</Layout>
 
-export default ShowLogbookPage
+export default LogbookInfoPage

@@ -15,5 +15,10 @@ const config: BlitzConfig = {
     return config
   },
   */
+  // configure blitz image hosts
+
+  images: {
+    domains: ["cdn.pixabay.com"],
+  },
 }
 module.exports = config
