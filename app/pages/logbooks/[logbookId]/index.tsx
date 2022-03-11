@@ -66,7 +66,8 @@ const BottomBar = ({ logbookId }: { logbookId?: number }) => {
           content: content.trim(),
           logbookId: logbookId!,
         })
-        invalidateQuery(getEntriesForBook)
+        await invalidateQuery(getEntriesForBook)
+        document.getElementById("messages-end")?.scrollIntoView()
       }
     },
     [disabled, logbookId, createEntry]
@@ -168,6 +169,7 @@ export const Logbook = () => {
       <MessageView>
         {/* <Header /> */}
         <MessageList>
+          <div id="messages-end" className="h-10" />
           {entryPages.map((page, i) => (
             <React.Fragment key={i}>
               {/* <div>page {i}</div> */}
