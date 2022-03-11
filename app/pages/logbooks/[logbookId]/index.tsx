@@ -150,7 +150,7 @@ export const Logbook = () => {
   const [logbook] = useQuery(getLogbook, { id: logbookId })
   const [entryPages, { hasNextPage, fetchNextPage }] = useInfiniteQuery(
     getEntriesForBook,
-    (page = { take: 3, skip: 0 }): GetEntriesInput => ({
+    (page = { take: 100, skip: 0 }): GetEntriesInput => ({
       ...page,
       id: logbookId,
       orderBy: { updatedAt: "desc" },
