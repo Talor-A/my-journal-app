@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "blitz dev",
-    "build": "blitz build",
+    "build": "blitz prisma migrate deploy && blitz build",
     "start": "blitz start --port ${PORT-3000}",
     "studio": "blitz prisma studio",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
